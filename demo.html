@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<title>demo</title>
+	<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="riny.confirmbox.js"></script>
+	<style>
+	body,div,ul,li{
+		margin:0;
+		padding:0;
+	}
+	ul{
+		list-style:none;
+	}
+	a{
+		-webkit-tap-highlight-color: rgba(255,255,255,0);
+	}
+	.list{
+		font-size:0;
+		padding:5px;
+	}
+	.list_item{
+		font-size:14px;
+		display:inline-block;
+		width:calc( 50% - 10px );
+		width:-webkit-calc( 50% - 10px );
+		height:100px;
+		background-color:#ccc;
+		margin:5px;
+		line-height:100px;
+		text-align:center;
+	}
+	.confirmbox{
+		width:80%;
+		height:1px;
+		padding:40% 0 40%;
+		position:fixed;
+		left:0;
+		right:0;
+		top:0;
+		bottom:0;
+		margin:auto;
+		z-index:1000;
+		background-color:#fff;
+		border-radius:5px;
+		box-shadow:0 0 10px 0 rgba(0,0,0,.5);
+	}
+	.confirmbox_inner{
+		position:absolute;
+		left:0;
+		top:0;
+		right:0;
+		bottom:0;
+		font-size:0;
+		display:flex;
+		display:-webkit-flex;
+		display:-webkit-box;
+		flex-direction:column;
+		-webkit-box-orient:vertical;
+	}
+	.confirmbox_inner_content{
+		flex-grow:1;
+		-webkit-flex-grow:1;
+		-webkit-box-flex:1;
+		font-size:16px;
+		text-align:center;
+		display:flex;
+		display:-webkit-flex;
+		display:-webkit-box;
+		flex-direction:column;
+		-webkit-box-orient:vertical;
+
+	}
+	.confirmbox_inner_content .change{
+		display:block;
+		width:100%;
+		background-color:#ccc;
+		color:#fff;
+		height:50px;
+		line-height:50px;
+	}
+	.confirmbox_inner_content .txt{
+		font-size:20px;
+		color:#666;
+		flex-grow:1;
+		-webkit-flex-grow:1;
+		-webkit-box-flex:1;
+		padding:20px;
+		overflow:hidden;
+		word-break:break-all;
+		line-height:24px;
+		overflow:scroll;
+		-webkit-overflow-scrolling:touch;
+	}
+	.confirmbox_inner_btns .btn{
+		font-size:16px;
+		width:50%;
+		height:50px;
+		background-color:#ccc;
+		display:inline-block;
+		text-align:center;
+		color:#fff;
+		line-height:50px;
+	}
+	</style>
+</head>
+<body>
+	<div class="confirmbox">
+		<div class="confirmbox_inner">
+			<div class="confirmbox_inner_content">
+				<a class="change">点击改变文本</a>
+				<div class="txt" id="txt">你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好</div>
+			</div>
+			<div class="confirmbox_inner_btns">
+				<a class="btn" id="okbtn">确定</a>
+				<a class="btn" id="cancelbtn">取消</a>
+			</div>
+		</div>
+	</div>
+	<ul class="list" id="list"></ul>
+	<script>
+	var list=$('#list');
+	var html='';
+	for(var i=0;i<50;i++){
+		html+='<li class="list_item">'+(i+1)+'</li>';
+	};
+	list.append(html);
+
+	$(function(){
+		//弹层实例
+		var confirmBox=new rinyConfirmBox({
+			el:'.confirmbox',
+			modal:true,
+			wrap:'body',
+			btns:[
+				{
+					btn:'.change',
+					event:'click',
+					fn:function(e){
+						var txt=$('.txt');
+						if(txt.text()=='你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好'){
+							txt.text('hello');
+						}else{
+							txt.text('你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好');
+						};
+					}
+				}
+			],
+			callback:{
+				show:function(){
+					document.documentElement.ontouchmove=function(e){
+						if(e.target.id=='txt'){			
+							e.stopPropagation();
+						}else{
+							e.preventDefault();
+						};
+					};
+					$('html').css({
+						'max-height':'100%',
+						'position':'fixed',
+						'width':'100%',
+						'overflow':'hidden',
+						'z-index':'99',
+						'top':'0',
+						'left':'0'
+					});
+				},
+				hide:function(){
+					document.documentElement.ontouchmove=null;
+					$('html').css({
+						'max-height':'none',
+						'position':'static',
+						'width':'100%',
+						'overflow':'visible',
+						'z-index':'99',
+						'top':'0',
+						'left':'0'
+					});
+				}
+			}
+		});
+		//显示弹层
+		$('.list_item').on('click',function(e){
+			confirmBox.showConfirmBox();
+		});
+		//隐藏弹层
+		$('.btn').on('click',function(e){
+			confirmBox.hideConfirmBox();
+		});
+
+	});
+	</script>
+</body>
+</html>
